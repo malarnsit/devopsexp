@@ -1,0 +1,56 @@
+May 29, 2025
+ step 1 :- Create a New Jenkins Job
+
+http://localhost:8080 
+
+step 2 :- 
+
+1. Create a New Job:
+
+2. Click "New Item" on the Jenkins dashboard. 
+
+3. Enter Item Name: e.g., HelloMaven-CI
+
+4. Select "Freestyle project" and click "OK".
+
+step 3 :-
+
+1. Scroll to the "Source Code Management" Section:
+
+2. Select "Git".
+
+3. https://github.com/devops-ds/your-maven-project.git  
+
+4. Use */main if you are using above link.
+
+step 4:-
+
+1. Scroll Down to the "Build" Section
+
+2. Add the Maven Build Step:
+
+3. Click "Add build step" and select "Execute shell".
+
+4. in command shell 
+
+ run :- /usr/bin/mvn clean package
+
+5. Click "Add build step" again and select "Execute shell"
+
+6. ansible-playbook -i hosts.ini deploy.yml
+
+7.  Scroll Down to the "Post-build Actions" Section:  
+
+8. Click "Add post-build action" and select "Archive the artifacts".
+
+9. Files to Archive: Type: target/*.jar
+
+10. click on save and go to dashboard on top left.
+
+11. execute this command in terminal:-
+
+ls -l /var/lib/jenkins/deployment/
+
+output :- total=4
+
+12. click on build and wait for to build  
