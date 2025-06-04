@@ -1,0 +1,46 @@
+required: java 17
+
+step 1:- sudo apt update
+
+step 2:- sudo apt upgrade -y
+
+step 3:- java -version
+
+java version should be 17.
+
+step 4:- curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+
+step 5:- echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+step 6:- sudo apt update
+
+            sudo apt install jenkins -y
+
+step 7:-  sudo systemctl start jenkins
+
+                sudo systemctl enable jenkins
+
+step 8:- go to website  http://localhost:8080
+
+for password use step 9
+
+step 9:- sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+step 10:- Install plugins
+
+Choose: Install suggested plugins
+
+Wait for installation to complete.
+
+step 11:- Create admin user
+  Fill in:
+Username
+
+Password
+
+Full Name
+
+Email
+
+step 12:- Jenkins is Ready
+            Click “Start using Jenkins”.
