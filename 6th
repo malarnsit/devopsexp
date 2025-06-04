@@ -1,0 +1,112 @@
+6th lab procedure
+https://github.com/Manjunatha-C-RNSIT/devops6.git      manjunath sir gitup
+
+
+
+
+step 1:- 
+
+Log in to Jenkins
+Open your web browser and go to your Jenkins instance (e.g., localhost:8080). Log in with the administrator credentials you created during the initial setup.
+
+Step 2:- 
+
+Create a New Jenkins Job 
+
+1. On the Jenkins dashboard, click "New Item" 
+
+2. Enter an item name (e.g., Maven-GitHub-Freestyle )
+
+3. Select "Freestyle project".
+
+4. Click "OK".
+
+Step 3:- 
+
+1. Scroll down to the "Source Code Management" section.
+
+ 2. Select "Git".
+
+3. paste this url :- https://github.com/devops-ds/your-maven-project.git
+
+4. change */master to */main
+
+5. Scroll down to the "Build" section.
+
+6. Click "Add build step".
+
+7. Select "Execute shell"
+
+8. in the command area enter the command :- /usr/bin/mvn clean install
+
+9. Scroll down to the "Post-build Actions" section.
+
+10. Click "Add post-build action".
+
+11. enter this :- **/target/surefire-reports/*.xml 
+
+12. click on save and build on the right hand side after coming back to the dashboard
+
+step 4:-
+
+1. On the Jenkins dashboard, click "New Item".
+
+2. Enter an item name (e.g., Maven-GitHub-Pipeline )
+
+3. Select "Pipeline".
+
+4. Click "OK".
+
+5. Under "Definition", select "Pipeline script". 
+
+6. enter this code 
+
+pipeline {
+    agent any // Or specify a specific agent label
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout code from your GitHub repository
+                git url: 'https://github.com/devops-ds/your-maven-project.git', branch: 'main' // Replace with your repo URL if different, adjust branch name if needed
+                // If your repository is private, you'll need to add credentials here, e.g.:
+                // git url: 'https://github.com/devops-ds/your-maven-project.git', branch: 'main', credentialsId: 'your-credential-id'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Execute Maven build using the 'mvn' command with the full path
+                // To find the full path to your 'mvn' executable on Linux/macOS, open your terminal and run:
+                // which mvn
+                sh '/usr/bin/mvn clean package' // Replace with actual path
+            }
+        }
+
+        stage('Test') {
+            steps {
+                // Optionally, separate test execution if needed
+                // This step is often not strictly necessary if 'mvn clean package' already runs tests
+                // sh '/path/to/your/maven/bin/mvn test' // Replace with actual path
+                echo 'Tests are typically run during the Build stage with Maven.'
+            }
+        }
+    }
+    post {
+        always {
+            // Archive test reports
+            junit '**/target/surefire-reports/*.xml'
+        }
+        success {
+            echo 'Build and tests succeeded!'
+        }
+        failure {
+            echo 'Build or tests failed.'
+        }
+        // Add other post conditions like 'unstable', 'changed' as needed
+    }
+}
+
+ 
+
+7.  click on save and build on the right hand side after coming back to the dashboard
