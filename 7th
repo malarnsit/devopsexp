@@ -1,0 +1,58 @@
+ Step 1: Update and Upgrade the System
+
+ sudo apt update
+sudo apt upgrade -y
+
+step 2:-Install Ansible
+
+sudo apt install ansible -y
+
+ansible --version
+
+step 3:-Create an Inventory File
+
+nano hosts.ini
+ 
+
+put the below 2 lines and press ctrl+o, enter,ctrl+x
+
+ 
+
+[local]
+localhost ansible_connection=local
+ 
+
+step 4:-Write a Basic Playbook
+
+nano setup.yml
+ 
+
+---
+- name: Basic Server Setup
+  hosts: local
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install curl
+      apt:
+        name: curl
+        state: present
+ 
+
+ put the above 2 lines and press ctrl+o, enter,ctrl+x
+
+ 
+
+step 5:-run
+
+ansible-playbook -i hosts.ini setup.yml
+ 
+
+ 
+
+ 
+
+
