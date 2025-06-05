@@ -1,0 +1,52 @@
+10th
+ Experiment 10 – Azure Pipelines for Maven Projects
+1. Install IntelliJ IDEA & Java
+sudo snap install intellij-idea-community --classic
+intellij-idea-community
+Ensure Java is installed before using the IDE.
+2. Create Maven Project
+● Open IntelliJ → New Project → Choose Maven + Java
+● Name it (e.g., sample) → Finish
+3. Initialize Git & Push to GitHub
+sudo apt install git
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+● Create private GitHub repo → Copy SSH URL
+ssh-keygen -t rsa -b 4096 -C "you@example.com"
+cat ~/.ssh/id_rsa.pub # Add this key to GitHub (Settings > SSH
+Keys)
+git remote set-url origin git@github.com:username/sample.git
+git push --set-upstream origin main
+4. Create Azure Pipeline
+● Go to https://dev.azure.com → Your Project → Pipelines
+● Click Create Pipeline
+
+○ Choose GitHub (YAML)
+○ Select the sample repo
+○ Choose Maven template
+● Azure auto-generates a YAML file → Click Save and Run
+5. Add Unit Test Reporting to Pipeline
+Edit the generated YAML to include test result publishing:
+trigger:
+- main
+pool:
+vmImage: 'ubuntu-latest'
+steps:
+- task: Maven@3
+inputs:
+mavenPomFile: 'pom.xml'
+goals: 'clean package'
+- task: PublishTestResults@2
+inputs:
+testResultsFiles: '**/target/surefire-reports/TEST-*.xml'
+mergeTestResults: true
+testRunTitle: 'Maven Unit Test Results'
+6. Run & Monitor the Pipeline
+● Pipeline runs on commit or click Run Pipeline
+● Check:
+○ Logs → Maven build + test execution
+○ Tests tab → See test summary & results 
